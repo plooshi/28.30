@@ -1,4 +1,4 @@
-\# 28.30
+# 28.30
 
 thanks luxx (and whoever he got it from) for leaking this <3<br>
 
