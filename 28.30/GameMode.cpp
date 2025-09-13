@@ -334,8 +334,13 @@ APawn* GameMode::SpawnDefaultPawnFor(UObject* Context, FFrame& Stack, APawn** Re
 	{
 		auto PlayerState = (AFortPlayerStateAthena*)PlayerController->PlayerState;
 
-		for (auto& AbilitySet : AbilitySets)
-			Abilities::GiveAbilitySet(PlayerState->AbilitySystemComponent, AbilitySet);
+		static UFortAbilitySet* NormalSet = Runtime::FindObject<UFortAbilitySet>(L"/Game/Abilities/Player/Generic/Traits/DefaultPlayer/GAS_AthenaPlayer.GAS_AthenaPlayer");
+		static UFortAbilitySet* tacticalsprint = Runtime::FindObject<UFortAbilitySet>(L"/TacticalSprintGame/Gameplay/AS_TacticalSprint.AS_TacticalSprint");
+		static UFortAbilitySet* zipsfix = Runtime::FindObject<UFortAbilitySet>(L"/Ascender/Gameplay/Ascender/AS_Ascender.AS_Ascender");
+		Abilities::::GiveAbilitySet(PlayerState->AbilitySystemComponent, NormalSet);
+		Abilities::::GiveAbilitySet(PlayerState->AbilitySystemComponent, tacticalsprint);
+		Abilities::::GiveAbilitySet(PlayerState->AbilitySystemComponent, zipsfix);
+		
 
 		PlayerState->HeroType = PlayerController->CosmeticLoadoutPC.Character->HeroDefinition;
 		((void (*)(APlayerState*, APawn*)) Sarah::Offsets::ApplyCharacterCustomization)(PlayerController->PlayerState, Pawn);
