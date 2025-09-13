@@ -57,6 +57,12 @@
     <ClInclude Include="Replication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Vehicles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -111,6 +117,9 @@
       <Filter>SDK</Filter>
     </ClCompile>
     <ClCompile Include="Replication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vehicles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

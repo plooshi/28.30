@@ -178,6 +178,7 @@
     <ClInclude Include="Looting.h" />
     <ClInclude Include="Misc.h" />
     <ClInclude Include="Offsets.h" />
+    <ClInclude Include="Options.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Replication.h" />

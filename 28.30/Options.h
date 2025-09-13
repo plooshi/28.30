@@ -1,1 +1,2 @@
-int MaxTickRate = 120;
+inline int MaxTickRate = 30;
+inline bool bIris = false;

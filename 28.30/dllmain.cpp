@@ -2,13 +2,14 @@
 #include "pch.h"
 #include "Utils.h"
 #include "Replication.h"
+#include "Options.h"
 
 void Main()
 {
     Sarah::Offsets::Init();
     ReplicationOffsets::Init();
     UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), L"net.AllowEncryption 0", nullptr);
-    //*(bool*)(__int64(Sarah::Offsets::ImageBase) + 0x117E1128) = true; // use iris rep
+    *(bool*)(__int64(Sarah::Offsets::ImageBase) + 0x117E1128) = bIris; // use iris rep
 #ifdef CLIENT
     UEngine::GetEngine()->GameViewport->ViewportConsole = (UConsole *) UGameplayStatics::SpawnObject(UEngine::GetEngine()->ConsoleClass, UEngine::GetEngine()->GameViewport);
     return;

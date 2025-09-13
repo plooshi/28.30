@@ -3,7 +3,7 @@
 #include "GamePhaseLogic.h"
 #include "Replication.h"
 //#include "Replication.h"
-//#include "Options.h"
+#include "Options.h"
 
 int Misc::GetNetMode()
 {
@@ -12,7 +12,7 @@ int Misc::GetNetMode()
 
 float Misc::GetMaxTickRate(UEngine* Engine, float DeltaTime, bool bAllowFrameRateSmoothing) {
 	// improper, DS is supposed to do hitching differently
-	return /*30.f*/ 120.f;
+	return /*30.f*/ MaxTickRate;
 }
 
 bool Misc::RetTrue() { return true; }
@@ -79,19 +79,23 @@ struct FSendUpdateParams
 static bool bStartedBus = false;
 void Misc::TickFlush(UNetDriver* Driver, float DeltaTime)
 {
-	/*auto ReplicationSystem = *(UReplicationSystem**)(__int64(Driver) + 0x748);
-	if (ReplicationSystem && Driver->ClientConnections.Num() > 0 && Driver->ClientConnections[0]->InternalAck == false)
+	auto ReplicationSystem = *(UReplicationSystem**)(__int64(Driver) + 0x748);
+	if (Driver->ClientConnections.Num() > 0 && Driver->ClientConnections[0]->InternalAck == false)
 	{
-		static void(*UpdateReplicationViews)(UNetDriver*) = decltype(UpdateReplicationViews)(Sarah::Offsets::ImageBase + 0x6577FB4);
-		static void(*PreSendUpdate)(UReplicationSystem*, FSendUpdateParams&) = decltype(PreSendUpdate)(Sarah::Offsets::ImageBase + 0x58675D8);
+		if (ReplicationSystem)
+		{
+			static void(*UpdateReplicationViews)(UNetDriver*) = decltype(UpdateReplicationViews)(Sarah::Offsets::ImageBase + 0x6577FB4);
+			static void(*PreSendUpdate)(UReplicationSystem*, FSendUpdateParams&) = decltype(PreSendUpdate)(Sarah::Offsets::ImageBase + 0x58675D8);
 
-		UpdateReplicationViews(Driver);
-		SendClientMoveAdjustments(Driver);
-		FSendUpdateParams Params;
-		Params.DeltaSeconds = DeltaTime;
-		PreSendUpdate(ReplicationSystem, Params);
-	}*/
-	Replication::ServerReplicateActors(Driver, DeltaTime);
+			UpdateReplicationViews(Driver);
+			SendClientMoveAdjustments(Driver);
+			FSendUpdateParams Params;
+			Params.DeltaSeconds = DeltaTime;
+			PreSendUpdate(ReplicationSystem, Params);
+		}
+		else
+			Replication::ServerReplicateActors(Driver, DeltaTime);
+	}
 	if (GetKeyState(VK_F2)) {
 		UKismetSystemLibrary::ExecuteConsoleCommand(UWorld::GetWorld(), L"startaircraft", nullptr);
 	}
@@ -113,7 +117,7 @@ void Misc::Listen()
 	FWorldContext* Context = ((FWorldContext * (*)(UEngine*, UWorld*)) (Sarah::Offsets::ImageBase + 0x12C8A10))(Engine, World);
 	auto NetDriverName = FName(L"GameNetDriver");
 	auto NetDriver = World->NetDriver = ((UNetDriver * (*)(UEngine*, FWorldContext*, FName, int))Sarah::Offsets::CreateNetDriver)(Engine, Context, NetDriverName, 0);
-	//*(bool*)(__int64(NetDriver) + 0x751) = true; // bisusingiris
+	*(bool*)(__int64(NetDriver) + 0x751) = bIris; // bisusingiris
 
 	for (auto& Collection : World->LevelCollections)
 		Collection.NetDriver = NetDriver;
