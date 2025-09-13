@@ -1,0 +1,1 @@
+int MaxTickRate = 120;
